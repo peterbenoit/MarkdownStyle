@@ -61,8 +61,11 @@ document.addEventListener('DOMContentLoaded', () => {
 					breaks: true,        // Convert line breaks to <br>
 					headerIds: true,     // Add IDs to headers
 					mangle: false,       // Don't escape HTML
+					sanitize: false,     // Don't sanitize HTML (important for allowing raw HTML)
+					headerPrefix: '',    // Prefix for header IDs
 					smartLists: true,    // Use smarter list behavior
 					smartypants: true,   // Use "smart" typographic punctuation
+					xhtml: true,         // Use XHTML compliant tags
 					highlight: function (code, lang) {
 						if (Prism.languages[lang]) {
 							return Prism.highlight(code, Prism.languages[lang], lang);
@@ -70,6 +73,10 @@ document.addEventListener('DOMContentLoaded', () => {
 						return code;
 					}
 				});
+
+				// Set renderer to allow raw HTML to pass through
+				const renderer = new marked.Renderer();
+				marked.use({ renderer });
 
 				// Use the marked library to convert markdown to HTML
 				const renderedHTML = marked.parse(cleanMarkdown);

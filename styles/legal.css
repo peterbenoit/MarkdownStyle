@@ -1,0 +1,590 @@
+/*
+   Markdown Style - Legal CSS Implementation
+   A stylesheet for rendering legal documents in Markdown
+*/
+
+:root {
+	/* Color Scheme - Professional Legal */
+	--color-bg: #ffffff;
+	--color-text: #333333;
+	--color-muted: #505050;
+	--color-heading: #2c3e50;
+	--color-link: #2980b9;
+	--color-code-bg: #f8f8f8;
+	--color-inline-code-bg: #f0f0f0;
+	--color-blockquote-border: #bdc3c7;
+	--color-blockquote-bg: #f9f9f9;
+	--color-table-border: #ddd;
+	--color-table-header: #f2f2f2;
+	--color-table-bg-alt: #f9f9f9;
+	--color-hr: #e5e5e5;
+	--color-definition: #7f8c8d;
+	--color-header-bg: #f9f9f9;
+	--color-footer-bg: #f9f9f9;
+	--color-signature-line: #000;
+
+	/* Fonts */
+	--font-serif: "Equity Text A", "Equity Text B", "Times New Roman", Georgia, serif;
+	--font-sans: "Concourse T3", -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+	--font-mono: "Triplicate T4", Consolas, "Liberation Mono", Menlo, monospace;
+
+	/* Spacing & Sizes */
+	--line-height: 1.6;
+	--paragraph-spacing: 1.2em;
+	--section-spacing: 2em;
+	--content-width: 850px;
+	--content-padding: 2.5rem;
+	--indentation: 2em;
+
+	/* Special Legal Settings */
+	--clause-indent: 2em;
+	--definition-indent: 4em;
+	--signature-space: 5em;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:ital,wght@0,400;0,600;0,700;1,400;1,600&display=swap');
+
+/* Override font families if specialty legal fonts aren't available */
+@font-face {
+	font-family: "Equity Text A";
+	src: local("Libre Baskerville");
+	font-weight: normal;
+}
+
+@font-face {
+	font-family: "Equity Text B";
+	src: local("Libre Baskerville");
+	font-weight: bold;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: "Concourse T3";
+	src: local("Source Sans Pro");
+}
+
+@font-face {
+	font-family: "Triplicate T4";
+	src: local("Consolas");
+}
+
+/* Base styles */
+body {
+	font-family: var(--font-serif);
+	font-size: 12pt;
+	line-height: var(--line-height);
+	color: var(--color-text);
+	background-color: var(--color-bg);
+	margin: 0;
+	padding: 0;
+}
+
+.container {
+	max-width: var(--content-width);
+	margin: 0 auto;
+	padding: 0 1.5rem;
+}
+
+/* Header & Navigation */
+header {
+	background-color: var(--color-header-bg);
+	padding: 1.5rem 1rem;
+	border-bottom: 1px solid #e5e5e5;
+	margin-bottom: 2rem;
+}
+
+header h1 {
+	margin: 0;
+	text-align: center;
+	font-family: var(--font-sans);
+	font-weight: 700;
+	color: var(--color-heading);
+	font-size: 2rem;
+}
+
+/* Style/file selectors */
+.style-selector,
+.file-selector {
+	margin: 1.5rem 0;
+	padding: 1rem;
+	background: var(--color-code-bg);
+	border-radius: 3px;
+	border: 1px solid var(--color-table-border);
+	display: flex;
+	align-items: center;
+	flex-wrap: wrap;
+	gap: 1rem;
+}
+
+.style-selector label,
+.file-selector label {
+	display: inline-block;
+	font-weight: 600;
+	color: var(--color-heading);
+	font-family: var(--font-sans);
+}
+
+.style-selector select,
+.file-selector select {
+	padding: 0.5rem 1rem;
+	background-color: #fff;
+	border: 1px solid var(--color-table-border);
+	border-radius: 3px;
+	color: var(--color-text);
+	font-family: var(--font-sans);
+	font-size: 0.95rem;
+}
+
+/* Markdown content area */
+.content-area {
+	background-color: #fff;
+	border-radius: 3px;
+	padding: var(--content-padding);
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+	margin-bottom: 2rem;
+	border: 1px solid var(--color-table-border);
+}
+
+/* Markdown body */
+.markdown-body {
+	font-size: 12pt;
+	line-height: var(--line-height);
+	counter-reset: section;
+}
+
+/* Document Title */
+.markdown-body h1:first-child {
+	margin-top: 0;
+	margin-bottom: 1.5em;
+	font-family: var(--font-sans);
+	text-align: center;
+	font-size: 16pt;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+}
+
+/* Document Metadata */
+.markdown-body h1:first-child+p {
+	text-align: center;
+	font-size: 11pt;
+	margin-top: -1em;
+	margin-bottom: 2em;
+}
+
+/* Document types - special styling for agreement types */
+.markdown-body h1:first-child::before {
+	content: "";
+	display: block;
+	text-transform: none;
+	font-weight: normal;
+	font-size: 11pt;
+	margin-bottom: 1em;
+	letter-spacing: normal;
+}
+
+.markdown-body.agreement h1:first-child::before {
+	content: "AGREEMENT";
+}
+
+.markdown-body.contract h1:first-child::before {
+	content: "CONTRACT";
+}
+
+.markdown-body.nda h1:first-child::before {
+	content: "NON-DISCLOSURE AGREEMENT";
+}
+
+/* Preamble/Recitals */
+.markdown-body blockquote:first-of-type {
+	background-color: transparent;
+	border-left: none;
+	padding: 0;
+	margin: 1.5em 0 2em;
+	font-style: normal;
+	color: var(--color-text);
+}
+
+.markdown-body blockquote:first-of-type::before {
+	content: "RECITALS";
+	display: block;
+	font-weight: 700;
+	margin-bottom: 1em;
+	font-size: 11pt;
+	text-align: center;
+	font-family: var(--font-sans);
+}
+
+.markdown-body blockquote:first-of-type p {
+	text-indent: var(--indentation);
+	margin-bottom: 1em;
+}
+
+.markdown-body blockquote:first-of-type p:first-child {
+	text-indent: 0;
+}
+
+.markdown-body blockquote:first-of-type p:first-child::before {
+	content: "WHEREAS, ";
+	font-weight: 700;
+}
+
+.markdown-body blockquote:first-of-type p:not(:first-child)::before {
+	content: "WHEREAS, ";
+	font-weight: 700;
+}
+
+.markdown-body blockquote:first-of-type p:last-child::before {
+	content: "NOW, THEREFORE, ";
+	font-weight: 700;
+}
+
+/* Headings - Section Titles */
+.markdown-body h2 {
+	font-family: var(--font-sans);
+	font-size: 12pt;
+	font-weight: 700;
+	margin-top: 2em;
+	margin-bottom: 1em;
+	text-transform: uppercase;
+	letter-spacing: 0.05em;
+	page-break-after: avoid;
+	counter-increment: section;
+}
+
+.markdown-body h2::before {
+	content: counter(section) ". ";
+}
+
+/* Sub-sections and clauses */
+.markdown-body h3 {
+	font-family: var(--font-serif);
+	font-size: 12pt;
+	font-weight: 700;
+	margin-top: 1.5em;
+	margin-bottom: 1em;
+	counter-reset: subsection;
+	page-break-after: avoid;
+}
+
+.markdown-body h3::before {
+	content: counter(section) "." counter(subsection) " ";
+	counter-increment: subsection;
+}
+
+/* Paragraphs */
+.markdown-body p {
+	margin-top: 0;
+	margin-bottom: var(--paragraph-spacing);
+	text-align: justify;
+	hyphens: auto;
+}
+
+/* Clauses/Sections formatting */
+.markdown-body ol {
+	padding-left: 0;
+	list-style-position: outside;
+	counter-reset: item;
+	margin-bottom: var(--paragraph-spacing);
+}
+
+.markdown-body ol>li {
+	padding-left: var(--clause-indent);
+	text-indent: calc(-1 * var(--clause-indent));
+	margin-bottom: 1em;
+	list-style-type: none;
+}
+
+.markdown-body ol>li::before {
+	content: counter(section) "." counter(item) " ";
+	counter-increment: item;
+	font-weight: 700;
+}
+
+.markdown-body ol ol {
+	padding-left: var(--indentation);
+	margin-top: 0.5em;
+	counter-reset: subitem;
+}
+
+.markdown-body ol ol>li {
+	margin-bottom: 0.5em;
+	text-indent: calc(-1 * var(--clause-indent));
+}
+
+.markdown-body ol ol>li::before {
+	content: "(" counter(subitem, lower-alpha) ") ";
+	counter-increment: subitem;
+	font-weight: normal;
+}
+
+.markdown-body ol ol ol {
+	counter-reset: subsubitem;
+}
+
+.markdown-body ol ol ol>li::before {
+	content: "(" counter(subsubitem, lower-roman) ") ";
+	counter-increment: subsubitem;
+}
+
+/* Definitions formatting */
+.markdown-body dl {
+	margin-bottom: var(--paragraph-spacing);
+}
+
+.markdown-body dt {
+	font-weight: 700;
+	margin-bottom: 0.5em;
+}
+
+.markdown-body dt::after {
+	content: ": ";
+}
+
+.markdown-body dd {
+	margin-left: var(--definition-indent);
+	margin-bottom: 1em;
+}
+
+/* Text formatting */
+.markdown-body strong {
+	font-weight: 700;
+}
+
+.markdown-body em {
+	font-style: italic;
+}
+
+.markdown-body del {
+	text-decoration: line-through;
+	color: var(--color-muted);
+}
+
+/* Definition terms within text */
+.markdown-body code:not(pre code) {
+	font-family: var(--font-serif);
+	font-weight: 700;
+	background: none;
+	font-size: inherit;
+	color: inherit;
+	padding: 0;
+	border-radius: 0;
+}
+
+/* Code blocks */
+.markdown-body pre {
+	margin-top: 0;
+	margin-bottom: var(--paragraph-spacing);
+	background-color: var(--color-code-bg);
+	border-radius: 3px;
+	padding: 1em;
+	overflow: auto;
+	border: 1px solid var(--color-table-border);
+	font-size: 10pt;
+	line-height: 1.4;
+}
+
+.markdown-body pre code {
+	font-family: var(--font-mono);
+	display: block;
+	padding: 0;
+	background-color: transparent;
+	font-size: inherit;
+}
+
+/* Blockquotes for special clauses */
+.markdown-body blockquote:not(:first-of-type) {
+	margin: 0 0 var(--paragraph-spacing);
+	padding: 0.5em 1em;
+	color: var(--color-text);
+	background-color: var(--color-blockquote-bg);
+	border-left: 3px solid var(--color-blockquote-border);
+	font-size: 11pt;
+}
+
+.markdown-body blockquote:not(:first-of-type)> :first-child {
+	margin-top: 0;
+}
+
+.markdown-body blockquote:not(:first-of-type)> :last-child {
+	margin-bottom: 0;
+}
+
+/* Tables */
+.markdown-body table {
+	border-spacing: 0;
+	border-collapse: collapse;
+	width: 100%;
+	margin-top: 0;
+	margin-bottom: var(--paragraph-spacing);
+	font-family: var(--font-serif);
+	font-size: 11pt;
+}
+
+.markdown-body table th {
+	font-weight: 700;
+	background-color: var(--color-table-header);
+	text-align: left;
+}
+
+.markdown-body table th,
+.markdown-body table td {
+	padding: 0.75em 1em;
+	border: 1px solid var(--color-table-border);
+}
+
+.markdown-body table tr {
+	background-color: transparent;
+	border-top: 1px solid var(--color-table-border);
+}
+
+.markdown-body table tr:nth-child(2n) {
+	background-color: var(--color-table-bg-alt);
+}
+
+/* Horizontal Rule - for section breaks */
+.markdown-body hr {
+	height: 1px;
+	margin: var(--section-spacing) auto;
+	background-color: var(--color-hr);
+	border: 0;
+	width: 50%;
+}
+
+/* Links */
+.markdown-body a {
+	color: var(--color-link);
+	text-decoration: underline;
+}
+
+.markdown-body a:hover {
+	text-decoration: none;
+}
+
+/* Signature blocks */
+.markdown-body hr+h3 {
+	text-align: center;
+	text-transform: uppercase;
+	font-family: var(--font-sans);
+	margin-top: 2em;
+}
+
+.markdown-body hr+h3::before {
+	content: none;
+}
+
+.markdown-body hr+h3+p,
+.markdown-body hr+h3+p+p {
+	text-align: left;
+}
+
+/* Signature lines */
+.markdown-body p:has(.signature-line) {
+	margin-top: var(--signature-space);
+	margin-bottom: 0.25em;
+}
+
+.markdown-body .signature-line {
+	display: inline-block;
+	min-width: 200px;
+	border-bottom: 1px solid var(--color-signature-line);
+}
+
+/* Signature block info */
+.markdown-body p.signature-block {
+	margin-top: 0;
+	font-size: 10pt;
+}
+
+/* Date lines */
+.markdown-body p:has(.date-line) {
+	margin-top: var(--signature-space);
+	margin-bottom: 0.25em;
+}
+
+.markdown-body .date-line {
+	display: inline-block;
+	min-width: 150px;
+	border-bottom: 1px solid var(--color-signature-line);
+}
+
+/* Footer */
+footer {
+	text-align: center;
+	padding: 1.5rem 1rem;
+	font-size: 0.9rem;
+	color: var(--color-muted);
+	background-color: var(--color-footer-bg);
+	border-top: 1px solid var(--color-table-border);
+	margin-top: 2rem;
+	font-family: var(--font-sans);
+}
+
+footer p {
+	margin: 0.5rem 0;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+	:root {
+		--content-padding: 1.5rem;
+		--clause-indent: 1.5em;
+		--definition-indent: 2em;
+	}
+
+	.markdown-body {
+		font-size: 11pt;
+	}
+
+	.file-selector,
+	.style-selector {
+		flex-direction: column;
+		align-items: flex-start;
+		gap: 0.5rem;
+	}
+
+	.file-selector select,
+	.style-selector select {
+		width: 100%;
+	}
+
+	.markdown-body p {
+		text-align: left;
+		hyphens: none;
+	}
+}
+
+/* Print styling */
+@media print {
+
+	header,
+	.style-selector,
+	.file-selector,
+	footer {
+		display: none;
+	}
+
+	.container {
+		max-width: 100%;
+	}
+
+	.content-area {
+		box-shadow: none;
+		border: none;
+		padding: 0;
+	}
+
+	.markdown-body {
+		font-size: 12pt;
+	}
+
+	h2,
+	h3 {
+		page-break-after: avoid;
+	}
+
+	h2+p,
+	h3+p {
+		page-break-before: avoid;
+	}
+}

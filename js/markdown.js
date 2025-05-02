@@ -136,6 +136,164 @@ function processFigureCaptions(container) {
 }
 
 /**
+ * Detects the type of legal document based on title and content
+ * Adds appropriate CSS classes to the container
+ *
+ * @param {HTMLElement} container - The container element with rendered Markdown
+ */
+function processLegalDocumentType(container) {
+	const title = container.querySelector('h1');
+	if (!title) return;
+
+	const titleText = title.textContent.toLowerCase();
+
+	// Remove any existing document type classes
+	container.classList.remove('agreement', 'contract', 'nda', 'amendment', 'policy');
+
+	// Check for document types in the title
+	if (titleText.includes('non-disclosure agreement') || titleText.includes('nda') ||
+		titleText.includes('confidentiality agreement')) {
+		container.classList.add('nda');
+	} else if (titleText.includes('agreement')) {
+		container.classList.add('agreement');
+	} else if (titleText.includes('contract')) {
+		container.classList.add('contract');
+	} else if (titleText.includes('amendment')) {
+		container.classList.add('amendment');
+	} else if (titleText.includes('policy')) {
+		container.classList.add('policy');
+	}
+
+	// For legal documents, mark defined terms (terms in code blocks)
+	if (container.classList.contains('nda') || container.classList.contains('agreement') ||
+		container.classList.contains('contract') || container.classList.contains('amendment') ||
+		container.classList.contains('policy')) {
+
+		const inlineCodeBlocks = container.querySelectorAll('code:not(pre code)');
+		inlineCodeBlocks.forEach(codeBlock => {
+			codeBlock.classList.add('defined-term');
+		});
+
+		// Process paragraphs, but skip those containing HTML tags like spans
+		const paragraphs = container.querySelectorAll('p');
+		paragraphs.forEach(paragraph => {
+			// Skip paragraphs that contain HTML tags
+			if (paragraph.innerHTML.includes('<span') ||
+				paragraph.innerHTML.includes('</span') ||
+				paragraph.innerHTML.includes('<div') ||
+				paragraph.innerHTML.includes('</div')) {
+				return;
+			}
+
+			// Process paragraphs that have regular text only
+			const tempDiv = document.createElement('div');
+			tempDiv.innerHTML = paragraph.innerHTML;
+
+			// Only apply this replacement if there are no HTML tags in the content
+			if (!/<\/?[a-z][\s\S]*>/i.test(paragraph.innerHTML)) {
+				// Replace quoted terms with styled spans
+				paragraph.innerHTML = paragraph.innerHTML.replace(/"([^"]+)"/g, (match, term) => {
+					// Only treat shorter phrases as defined terms (longer quotes are likely regular quotations)
+					if (term.split(' ').length <= 3) {
+						return `<span class="defined-term">"${term}"</span>`;
+					}
+					return match;
+				});
+			}
+		});
+
+		// Fix any signature lines that might have been broken
+		fixSignatureLines(container);
+	}
+}
+
+/**
+ * Fix signature lines that might have been broken during HTML processing
+ *
+ * @param {HTMLElement} container - The container element with rendered Markdown
+ */
+function fixSignatureLines(container) {
+	// Look for broken signature lines - text that looks like HTML tags
+	const paragraphs = container.querySelectorAll('p');
+	paragraphs.forEach(paragraph => {
+		// Check for text that looks like broken HTML
+		if (paragraph.textContent.includes('<span class="signature-line">') ||
+			paragraph.textContent.includes('<span class="date-line">')) {
+
+			// Try to fix broken signature line HTML
+			// Replace text that looks like HTML tags with actual HTML
+			paragraph.innerHTML = paragraph.innerHTML
+				.replace(/&lt;span class="signature-line"&gt;&lt;\/span&gt;/g, '<span class="signature-line"></span>')
+				.replace(/&lt;span class="date-line"&gt;&lt;\/span&gt;/g, '<span class="date-line"></span>')
+				.replace(/<span class="signature-line"><\/span>/g, '<span class="signature-line"></span>')
+				.replace(/<span class="date-line"><\/span>/g, '<span class="date-line"></span>')
+				.replace(/"signature-line">/g, '<span class="signature-line"></span>')
+				.replace(/"date-line">/g, '<span class="date-line"></span>');
+		}
+	});
+}
+
+/**
+ * Create an automatic table of contents for legal documents
+ *
+ * @param {HTMLElement} container - The container element with rendered Markdown
+ */
+function createLegalTableOfContents(container) {
+	// Check if this appears to be a legal document
+	const isLegal = container.classList.contains('nda') ||
+		container.classList.contains('agreement') ||
+		container.classList.contains('contract') ||
+		container.classList.contains('policy');
+
+	if (!isLegal) return;
+
+	// Find all section headers (typically h2 elements in our structure)
+	const sectionHeadings = Array.from(container.querySelectorAll('h2'));
+	if (sectionHeadings.length < 3) return; // Not enough sections to warrant a TOC
+
+	// Create the TOC container
+	const tocContainer = document.createElement('div');
+	tocContainer.className = 'toc-container';
+	tocContainer.innerHTML = '<h3 class="toc-title">TABLE OF CONTENTS</h3>';
+
+	// Create the list of contents
+	const tocList = document.createElement('ol');
+	tocList.className = 'toc-list';
+
+	sectionHeadings.forEach((heading, index) => {
+		// Give each heading an ID if it doesn't already have one
+		if (!heading.id) {
+			heading.id = `section-${index + 1}`;
+		}
+
+		// Create the TOC entry
+		const listItem = document.createElement('li');
+		const link = document.createElement('a');
+		link.href = `#${heading.id}`;
+		link.textContent = heading.textContent;
+		listItem.appendChild(link);
+		tocList.appendChild(listItem);
+	});
+
+	tocContainer.appendChild(tocList);
+
+	// Insert the TOC after the document preamble (the first blockquote)
+	const preamble = container.querySelector('blockquote');
+	if (preamble) {
+		preamble.parentNode.insertBefore(tocContainer, preamble.nextSibling);
+	} else {
+		// If no preamble, insert after the first paragraph following the title
+		const title = container.querySelector('h1');
+		if (title && title.nextElementSibling) {
+			title.nextElementSibling.insertAdjacentElement('afterend', tocContainer);
+		} else {
+			// Last resort: insert at the beginning of the container
+			container.insertBefore(tocContainer, container.firstChild);
+		}
+	}
+}
+
+/**
  * Apply MathJax typesetting to render mathematical formulas
  */
 function processMathJax() {
@@ -163,5 +321,10 @@ function enhanceMarkdown(container) {
 	processTaskLists(container);
 	processFootnotes(container);
 	processFigureCaptions(container);
+	processLegalDocumentType(container);
+
+	// Only create TOC after document type is identified
+	createLegalTableOfContents(container);
+
 	processMathJax();
 }
