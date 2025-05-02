@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	/**
 	 * Change the CSS style of the Markdown renderer
-	 * @param {string} style - The style to apply (basic or modern)
+	 * @param {string} style - The style to apply (basic, modern, or scientific)
 	 */
 	function changeStyle(style) {
 		themeStylesheet.setAttribute('href', `styles/${style}.css`);
@@ -85,6 +85,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
 				// Process footnotes
 				processFootnotes();
+
+				// Typeset math if MathJax is loaded
+				if (window.MathJax) {
+					// Different versions of MathJax have different APIs
+					if (typeof MathJax.typeset === 'function') {
+						// MathJax v3 API
+						MathJax.typeset();
+					} else if (typeof MathJax.Hub !== 'undefined' && typeof MathJax.Hub.Queue === 'function') {
+						// MathJax v2 API
+						MathJax.Hub.Queue(["Typeset", MathJax.Hub]);
+					} else {
+						console.warn("MathJax loaded but typesetting function not found.");
+					}
+				}
 			})
 			.catch(error => {
 				console.error('Error loading markdown:', error);

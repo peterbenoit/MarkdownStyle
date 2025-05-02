@@ -36,10 +36,19 @@ Deliverables:
 
 This project goes beyond simple Markdown rendering by offering:
 
-1. **Style Comparison Tool**: A single platform to compare how Markdown looks with different styling approaches
-2. **Learning Resource**: Demonstrates how the same HTML structure can be transformed with different CSS styles
-3. **Design Inspiration**: Provides ideas for custom Markdown styling in web applications and documentation sites
-4. **Theme Showcase**: Displays multiple design approaches for Markdown content
+1. Interactive Markdown Editor: Turn this into a real-time editor where users can write Markdown on one side and see the styled output instantly. This would be more useful than just a viewer.
+
+2. Custom Extensions/Features: Implement unique Markdown extensions that aren't widely available in other platforms, like special callouts, diagrams, custom components, etc.
+
+3. Specialized Use-Case Focus: Target a specific niche where Markdown rendering has unique requirements (scientific notation, legal documents, educational content).
+
+4. Style Framework Comparison Tool: Complete the other phases with Tailwind, Bulma, and Bootstrap to create a tool that helps developers compare how Markdown looks across different CSS frameworks.
+
+5. Export Capabilities: Add functionality to export the styled Markdown as PDF, image formats, or standalone HTML files.
+
+6. Collaborative Features: Add real-time collaboration features so multiple people can edit a document simultaneously.
+
+7. Template System: Create Markdown templates for common document types (reports, resumes, etc.) with associated styles.
 
 ## Potential Enhancements
 

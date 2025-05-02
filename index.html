@@ -6,6 +6,22 @@
         <title>Markdown Style</title>
         <link rel="stylesheet" href="styles/basic.css" id="theme-stylesheet" />
         <link rel="stylesheet" href="styles/prism.css" />
+        
+        <!-- MathJax for LaTeX rendering (v3) -->
+        <script>
+            window.MathJax = {
+                tex: {
+                    inlineMath: [['$', '$'], ['\\(', '\\)']],
+                    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                    processEscapes: true,
+                    processEnvironments: true
+                },
+                svg: {
+                    fontCache: 'global'
+                }
+            };
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
     </head>
     <body>
         <header>
@@ -18,6 +34,7 @@
                 <select id="style-select">
                     <option value="basic">Basic</option>
                     <option value="modern">Modern</option>
+                    <option value="scientific">Scientific</option>
                 </select>
             </div>
 
@@ -26,6 +43,7 @@
                 <select id="file-select">
                     <option value="example.markdown.md">Adult vs Baby Diaper Sales</option>
                     <option value="sample.md">Markdown Features Demo</option>
+                    <option value="scientific-paper.md">Scientific Paper</option>
                 </select>
             </div>
 
