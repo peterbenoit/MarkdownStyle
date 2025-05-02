@@ -6,19 +6,25 @@
         <title>Markdown Style</title>
         <link rel="stylesheet" href="styles/basic.css" id="theme-stylesheet" />
         <link rel="stylesheet" href="styles/prism.css" />
-        
+
         <!-- MathJax for LaTeX rendering (v3) -->
         <script>
             window.MathJax = {
                 tex: {
-                    inlineMath: [['$', '$'], ['\\(', '\\)']],
-                    displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                    inlineMath: [
+                        ['$', '$'],
+                        ['\\(', '\\)'],
+                    ],
+                    displayMath: [
+                        ['$$', '$$'],
+                        ['\\[', '\\]'],
+                    ],
                     processEscapes: true,
-                    processEnvironments: true
+                    processEnvironments: true,
                 },
                 svg: {
-                    fontCache: 'global'
-                }
+                    fontCache: 'global',
+                },
             };
         </script>
         <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>

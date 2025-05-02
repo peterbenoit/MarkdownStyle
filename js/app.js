@@ -86,6 +86,9 @@ document.addEventListener('DOMContentLoaded', () => {
 				// Process footnotes
 				processFootnotes();
 
+				// Process figure captions
+				processFigureCaptions();
+
 				// Typeset math if MathJax is loaded
 				if (window.MathJax) {
 					// Different versions of MathJax have different APIs
@@ -162,5 +165,74 @@ function processFootnotes() {
 	backLinks.forEach(link => {
 		link.classList.add('footnote-backref');
 		link.innerHTML = '↩';
+	});
+}
+
+/**
+ * Process image captions to transform them into proper figure/figcaption elements
+ * Looks for images followed by italic text and restructures them
+ */
+function processFigureCaptions() {
+	const content = document.querySelector('.markdown-body');
+	if (!content) return;
+
+	// Find all images in the content
+	const images = content.querySelectorAll('img');
+
+	images.forEach(img => {
+		// Look for the next element after the image
+		let nextElement = img.nextElementSibling;
+
+		// Check if it's a <em> element (italic text) or a <p> with em inside (common with some markdown processors)
+		if (nextElement) {
+			let captionElement = null;
+			let captionText = '';
+
+			if (nextElement.tagName === 'EM') {
+				captionElement = nextElement;
+				captionText = nextElement.textContent;
+			} else if (nextElement.tagName === 'P' && nextElement.querySelector('em')) {
+				// If it's a paragraph with only an em inside
+				const em = nextElement.querySelector('em');
+				if (em && nextElement.textContent.trim() === em.textContent.trim()) {
+					captionElement = nextElement;
+					captionText = em.textContent;
+				}
+			} else if (nextElement.tagName === 'BR' && nextElement.nextElementSibling) {
+				// If there's a BR followed by an EM or P with EM
+				const afterBr = nextElement.nextElementSibling;
+				if (afterBr.tagName === 'EM') {
+					captionElement = afterBr;
+					captionText = afterBr.textContent;
+				} else if (afterBr.tagName === 'P' && afterBr.querySelector('em')) {
+					const em = afterBr.querySelector('em');
+					if (em && afterBr.textContent.trim() === em.textContent.trim()) {
+						captionElement = afterBr;
+						captionText = em.textContent;
+					}
+				}
+			}
+
+			if (captionElement) {
+				// Create a new figure element
+				const figure = document.createElement('figure');
+				figure.className = 'markdown-figure';
+
+				// Move the image inside the figure
+				img.parentNode.insertBefore(figure, img);
+				figure.appendChild(img);
+
+				// Create a figcaption
+				const figcaption = document.createElement('figcaption');
+				figcaption.textContent = captionText;
+				figure.appendChild(figcaption);
+
+				// Remove the original caption element and any BR that might be in between
+				if (captionElement.previousElementSibling && captionElement.previousElementSibling.tagName === 'BR') {
+					captionElement.previousElementSibling.remove();
+				}
+				captionElement.remove();
+			}
+		}
 	});
 }
