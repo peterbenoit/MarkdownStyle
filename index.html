@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Markdown Style</title>
+        <link rel="stylesheet" href="styles/basic.css" id="theme-stylesheet" />
+        <link rel="stylesheet" href="styles/prism.css" />
+    </head>
+    <body>
+        <header>
+            <h1>Markdown Style</h1>
+        </header>
+
+        <main class="container">
+            <div class="style-selector">
+                <label for="style-select">Choose a style:</label>
+                <select id="style-select">
+                    <option value="basic">Basic</option>
+                    <option value="modern">Modern</option>
+                </select>
+            </div>
+
+            <div class="file-selector">
+                <label for="file-select">Choose a Markdown file:</label>
+                <select id="file-select">
+                    <option value="example.markdown.md">Adult vs Baby Diaper Sales</option>
+                    <option value="sample.md">Markdown Features Demo</option>
+                </select>
+            </div>
+
+            <div class="content-area">
+                <div id="markdown-content" class="markdown-body">
+                    <!-- Markdown content will be loaded here -->
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Markdown Style - Custom CSS Implementation</p>
+        </footer>
+
+        <script src="js/prism.js"></script>
+        <script src="js/marked.min.js"></script>
+        <script src="js/app.js"></script>
+    </body>
+</html>
