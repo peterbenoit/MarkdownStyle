@@ -313,6 +313,74 @@ function processMathJax() {
 }
 
 /**
+ * Process retro 1997-style elements like marquees, hit counter, etc.
+ *
+ * @param {HTMLElement} container - The container element with rendered Markdown
+ */
+function processRetro1997Elements(container) {
+	// Process marquee tags
+	const marquees = container.querySelectorAll('marquee');
+	marquees.forEach(marquee => {
+		// Add some classic 90s styling
+		marquee.style.backgroundColor = '#FFFF00';
+		marquee.style.color = '#FF0000';
+		marquee.style.fontWeight = 'bold';
+	});
+
+	// Process special under construction divs
+	const constructionDivs = container.querySelectorAll('.under-construction');
+	constructionDivs.forEach(div => {
+		div.classList.add('blink');
+
+		// Add construction gif if not already present
+		if (!div.querySelector('img')) {
+			const constructionImg = document.createElement('img');
+			constructionImg.src = 'https://web.archive.org/web/20091021055957if_/http://hk.geocities.com/milkyy_way_hk/construction.gif';
+			constructionImg.alt = 'Under Construction';
+			div.prepend(constructionImg);
+		}
+	});
+
+	// Process hit counter
+	const hitCounters = container.querySelectorAll('.hit-counter');
+	hitCounters.forEach(counter => {
+		// Get current count from localStorage or use the text content
+		const currentCount = counter.textContent.trim() || '000000';
+		let count = parseInt(localStorage.getItem('retro1997_hitcount') || currentCount);
+
+		// Increment count when viewing with retro theme
+		const themeStylesheet = document.getElementById('theme-stylesheet');
+		if (themeStylesheet && themeStylesheet.getAttribute('href').includes('retro1997')) {
+			count += 1;
+			localStorage.setItem('retro1997_hitcount', count.toString());
+		}
+
+		// Format count with leading zeros
+		counter.textContent = count.toString().padStart(6, '0');
+	});
+
+	// Process new badges
+	const newBadges = container.querySelectorAll('.new-badge');
+	newBadges.forEach(badge => {
+		badge.classList.add('blink');
+		badge.textContent = 'NEW!';
+		badge.style.color = '#FF0000';
+		badge.style.fontSize = '10pt';
+		badge.style.backgroundColor = '#FFFF00';
+		badge.style.padding = '0 3px';
+	});
+
+	// Process "best viewed" message
+	const bestViewed = container.querySelectorAll('.best-viewed');
+	bestViewed.forEach(div => {
+		div.style.textAlign = 'center';
+		div.style.fontStyle = 'italic';
+		div.style.fontSize = '10pt';
+		div.style.marginTop = '20px';
+	});
+}
+
+/**
  * Apply all Markdown enhancements to the rendered HTML content
  *
  * @param {HTMLElement} container - The container element with rendered Markdown
@@ -322,6 +390,12 @@ function enhanceMarkdown(container) {
 	processFootnotes(container);
 	processFigureCaptions(container);
 	processLegalDocumentType(container);
+
+	// Process retro elements if needed
+	const themeStylesheet = document.getElementById('theme-stylesheet');
+	if (themeStylesheet && themeStylesheet.getAttribute('href').includes('retro1997')) {
+		processRetro1997Elements(container);
+	}
 
 	// Only create TOC after document type is identified
 	createLegalTableOfContents(container);

@@ -1,0 +1,549 @@
+/*
+   Markdown Style - Retro 1997 CSS Implementation
+   A stylesheet to render markdown in classic mid-90s web style
+*/
+
+/* Color scheme - Classic 90s Web */
+:root {
+	--color-bg: #c0c0c0;
+	--color-text: #000000;
+	--color-link: #0000FF;
+	--color-visited: #800080;
+	--color-header-bg: #000080;
+	--color-header-text: #FFFFFF;
+	--color-table-border: #000000;
+	--color-table-header: #808080;
+	--color-hr: #000000;
+	--color-blockquote-bg: #FFFFCC;
+	--color-blockquote-border: #999900;
+	--content-width: 760px;
+	--content-padding: 15px;
+}
+
+/* Fonts - Classic 90s web safe fonts */
+body {
+	font-family: "Times New Roman", Times, serif;
+	font-size: 12pt;
+	line-height: 1.5;
+	color: var(--color-text);
+	background-color: var(--color-bg);
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAIAAACRXR/mAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAIGNIUk0AAHolAACAgwAA+f8AAIDpAAB1MAAA6mAAADqYAAAXb5JfxUYAAABnSURBVHja7M5BDQAwDASh+ze/XeCECg7BsSRIHhZJXnHPzKqquuKcu+7dTVUlqRldVyRJ0o8kz1Ekf/J9SJIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIkSZIk6aMBmW8HABTwf8YAAAAASUVORK5CYII=");
+	margin: 0;
+	padding: 0;
+}
+
+/* Container styles */
+.container {
+	max-width: var(--content-width);
+	margin: 20px auto;
+	padding: 0;
+}
+
+/* Header & Navigation */
+header {
+	background-color: var(--color-header-bg);
+	color: var(--color-header-text);
+	padding: 10px;
+	text-align: center;
+	border: 2px outset #ddd;
+}
+
+header h1 {
+	margin: 0;
+	font-family: "Arial", "Helvetica", sans-serif;
+	font-weight: bold;
+	font-size: 24pt;
+	text-shadow: 2px 2px #000;
+}
+
+/* Style/file selectors */
+.style-selector,
+.file-selector {
+	margin: 10px 0;
+	padding: 5px;
+	background: #ddd;
+	border: 2px inset #fff;
+}
+
+.style-selector label,
+.file-selector label {
+	display: inline-block;
+	font-weight: bold;
+	font-family: "Arial", "Helvetica", sans-serif;
+	margin-right: 10px;
+}
+
+.style-selector select,
+.file-selector select {
+	padding: 2px;
+	background-color: #fff;
+	border: 2px inset #ddd;
+	font-family: "Arial", "Helvetica", sans-serif;
+}
+
+/* Blink animation for important text */
+@keyframes blink {
+	0% {
+		opacity: 1;
+	}
+
+	50% {
+		opacity: 0;
+	}
+
+	100% {
+		opacity: 1;
+	}
+}
+
+.blink {
+	animation: blink 1s step-end infinite;
+}
+
+/* Content area - the nostalgic "paper" look */
+.content-area {
+	background-color: #FFFFFF;
+	border: 2px outset #ddd;
+	padding: var(--content-padding);
+	margin-bottom: 20px;
+}
+
+/* Markdown body */
+.markdown-body {
+	font-family: "Times New Roman", Times, serif;
+	font-size: 12pt;
+	line-height: 1.5;
+}
+
+/* Document Title */
+.markdown-body h1 {
+	color: #CC0000;
+	font-family: "Arial Black", "Impact", sans-serif;
+	text-align: center;
+	font-size: 24pt;
+	margin: 20px 0;
+	text-transform: uppercase;
+	border-bottom: 2px dotted #000080;
+}
+
+/* Section headings */
+.markdown-body h2 {
+	color: #000080;
+	font-family: "Arial", "Helvetica", sans-serif;
+	font-size: 18pt;
+	margin-top: 20px;
+	margin-bottom: 10px;
+	text-decoration: underline;
+}
+
+/* Subsection headings */
+.markdown-body h3 {
+	color: #006600;
+	font-family: "Arial", "Helvetica", sans-serif;
+	font-size: 14pt;
+	margin-top: 15px;
+	margin-bottom: 10px;
+	text-decoration: underline;
+}
+
+/* Regular text */
+.markdown-body p {
+	margin: 10px 0;
+	text-align: left;
+}
+
+/* Lists */
+.markdown-body ul {
+	list-style-type: square;
+	margin: 10px 0;
+	padding-left: 30px;
+}
+
+.markdown-body ol {
+	margin: 10px 0;
+	padding-left: 30px;
+}
+
+.markdown-body li {
+	margin-bottom: 5px;
+}
+
+/* Links - classic blue underlined */
+.markdown-body a {
+	color: var(--color-link);
+	text-decoration: underline;
+}
+
+.markdown-body a:visited {
+	color: var(--color-visited);
+}
+
+.markdown-body a:hover {
+	color: #FF0000;
+}
+
+/* Text formatting */
+.markdown-body strong {
+	font-weight: bold;
+}
+
+.markdown-body em {
+	font-style: italic;
+}
+
+.markdown-body del {
+	text-decoration: line-through;
+}
+
+/* Code blocks with that classic early HTML look */
+.markdown-body code:not(pre code) {
+	font-family: "Courier New", Courier, monospace;
+	background-color: #eee;
+	border: 1px solid #999;
+	padding: 0 3px;
+	color: #990000;
+}
+
+.markdown-body pre {
+	background-color: #000000;
+	color: #00FF00;
+	border: 2px inset #ddd;
+	padding: 10px;
+	overflow: auto;
+	margin: 10px 0;
+	font-family: "Courier New", Courier, monospace;
+	font-size: 10pt;
+	line-height: 1.3;
+}
+
+.markdown-body pre code {
+	background: none;
+	border: none;
+	padding: 0;
+	color: inherit;
+	font-size: inherit;
+}
+
+/* Blockquotes */
+.markdown-body blockquote {
+	margin: 10px 0;
+	padding: 10px;
+	color: var(--color-text);
+	background-color: var(--color-blockquote-bg);
+	border-left: 4px solid var(--color-blockquote-border);
+	border-right: 1px solid var(--color-blockquote-border);
+	border-top: 1px solid var(--color-blockquote-border);
+	border-bottom: 1px solid var(--color-blockquote-border);
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEklEQVQImWNgYGD4z0AswK4SAFXuAf8EPy+xAAAAAElFTkSuQmCC");
+}
+
+/* Tables - the classic HTML table look */
+.markdown-body table {
+	border-collapse: collapse;
+	width: 100%;
+	margin: 20px 0;
+	border: 2px outset #ddd;
+}
+
+.markdown-body table th {
+	background-color: var(--color-table-header);
+	color: white;
+	font-family: "Arial", "Helvetica", sans-serif;
+	font-weight: bold;
+	padding: 5px;
+	border: 1px solid var(--color-table-border);
+	text-align: center;
+	border: 2px inset #aaa;
+}
+
+.markdown-body table td {
+	padding: 5px;
+	border: 1px solid var(--color-table-border);
+	background-color: #fff;
+}
+
+.markdown-body table tr:nth-child(even) td {
+	background-color: #eee;
+}
+
+/* Horizontal Rule */
+.markdown-body hr {
+	height: 2px;
+	background-color: var(--color-hr);
+	border: none;
+	margin: 20px auto;
+}
+
+/* Images - classic border */
+.markdown-body img {
+	max-width: 100%;
+	border: 1px solid #000;
+	padding: 3px;
+	background: #fff;
+	display: block;
+	margin: 0 auto;
+}
+
+/* Definition lists */
+.markdown-body dl {
+	margin: 10px 0;
+}
+
+.markdown-body dt {
+	font-weight: bold;
+	margin-top: 10px;
+}
+
+.markdown-body dd {
+	margin-left: 30px;
+	margin-bottom: 10px;
+}
+
+/* The classic "Under Construction" warning */
+.under-construction {
+	background-color: #FFFF00;
+	color: #000000;
+	text-align: center;
+	padding: 10px;
+	border: 3px dashed #FF0000;
+	margin: 20px 0;
+	font-weight: bold;
+	font-family: "Arial Black", Arial, sans-serif;
+}
+
+.under-construction::before {
+	content: "⚠️ ";
+}
+
+.under-construction::after {
+	content: " ⚠️";
+}
+
+/* "New" badge for new content */
+.new-badge::after {
+	content: " NEW!";
+	background-color: #FF0000;
+	color: #FFFF00;
+	font-size: 9pt;
+	padding: 1px 3px;
+	vertical-align: super;
+	font-family: "Arial Black", Arial, sans-serif;
+	animation: blink 1s step-end infinite;
+}
+
+/* Hit counter */
+.hit-counter {
+	text-align: center;
+	margin-top: 10px;
+	padding: 5px;
+	font-family: "Arial", sans-serif;
+	font-size: 9pt;
+}
+
+.hit-counter::before {
+	content: "Visitors: ";
+	font-weight: bold;
+}
+
+/* Footer */
+footer {
+	text-align: center;
+	padding: 10px;
+	background-color: #000080;
+	color: white;
+	font-family: "Arial", sans-serif;
+	font-size: 8pt;
+	margin-top: 20px;
+	border: 2px outset #ddd;
+}
+
+footer p {
+	margin: 5px 0;
+}
+
+/* Best viewed in... banner */
+.best-viewed {
+	text-align: center;
+	margin: 10px 0;
+	font-family: "Arial", sans-serif;
+	font-size: 9pt;
+	font-weight: bold;
+	color: #000080;
+}
+
+/* Media queries were not a thing in 1997, but included for modern compatibility */
+@media (max-width: 768px) {
+	.container {
+		width: 95%;
+	}
+}
+
+/* 90s marquee effect */
+.marquee {
+	background-color: #000080;
+	color: #FFFFFF;
+	white-space: nowrap;
+	overflow: hidden;
+	width: 100%;
+	font-family: "Arial", sans-serif;
+	margin-bottom: 10px;
+}
+
+.marquee span {
+	display: inline-block;
+	padding-left: 100%;
+	animation: marquee 15s linear infinite;
+}
+
+@keyframes marquee {
+	0% {
+		transform: translate(0, 0);
+	}
+
+	100% {
+		transform: translate(-100%, 0);
+	}
+}
+
+/* Enhanced styling for 90s elements */
+.markdown-body .marquee {
+	background: #000080;
+	color: #FFFF00;
+	font-weight: bold;
+	padding: 5px;
+	white-space: nowrap;
+	overflow: hidden;
+	box-sizing: border-box;
+	border: 2px outset #ddd;
+}
+
+.markdown-body .marquee span {
+	display: inline-block;
+	animation: marquee 15s linear infinite;
+}
+
+@keyframes marquee {
+	0% {
+		transform: translateX(100%);
+	}
+
+	100% {
+		transform: translateX(-100%);
+	}
+}
+
+.markdown-body .under-construction {
+	background: #FFFF00;
+	color: #000000;
+	text-align: center;
+	padding: 10px;
+	border: 5px dashed #FF0000;
+	margin: 20px 0;
+	font-size: 18pt;
+	font-weight: bold;
+	font-family: "Impact", sans-serif;
+	animation: blink 2s step-end infinite;
+}
+
+.markdown-body .hit-counter {
+	background: #000000;
+	color: #00FF00;
+	font-family: "Courier New", monospace;
+	padding: 5px 10px;
+	border: 2px inset #666;
+	font-weight: bold;
+	display: inline-block;
+	letter-spacing: 2px;
+	margin: 10px 0;
+}
+
+.markdown-body .new-badge:after {
+	content: "NEW!";
+	background-color: #FF0000;
+	color: #FFFF00;
+	font-size: 10pt;
+	padding: 2px 5px;
+	margin-left: 10px;
+	font-weight: bold;
+	animation: blink 1s step-end infinite;
+}
+
+.markdown-body .best-viewed {
+	text-align: center;
+	font-size: 10pt;
+	font-style: italic;
+	margin-top: 20px;
+	color: #666666;
+}
+
+/* "Groovy" background patterns for special sections */
+.markdown-body blockquote {
+	background-color: var(--color-blockquote-bg);
+	border-left: 5px solid var(--color-blockquote-border);
+	padding: 10px;
+	margin: 15px 0;
+	font-style: italic;
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEklEQVQImWNgYGD4z0AswK4SAFXuAf8EPy+xAAAAAElFTkSuQmCC");
+}
+
+/* 3D buttons - classic Windows 95/98 look */
+.markdown-body button,
+.markdown-body .button {
+	background: #c0c0c0;
+	border: 2px outset #ddd;
+	padding: 5px 15px;
+	font-family: "MS Sans Serif", Arial, sans-serif;
+	font-size: 12px;
+	color: #000;
+	cursor: pointer;
+	margin: 5px;
+}
+
+.markdown-body button:active,
+.markdown-body .button:active {
+	border-style: inset;
+}
+
+/* Classic 90s table styling */
+.markdown-body table {
+	border-collapse: collapse;
+	width: 100%;
+	border: 2px outset #ddd;
+}
+
+.markdown-body th {
+	background-color: var(--color-table-header);
+	color: white;
+	font-weight: bold;
+	border: 2px inset #aaa;
+	padding: 5px;
+}
+
+.markdown-body td {
+	border: 1px solid var(--color-table-border);
+	padding: 5px;
+	background: #fff;
+}
+
+/* Guestbook form styling */
+.markdown-body .guestbook-form {
+	background: #eee;
+	border: 2px inset #ddd;
+	padding: 10px;
+	margin: 15px 0;
+}
+
+.markdown-body .guestbook-form label {
+	display: block;
+	font-weight: bold;
+	margin-top: 10px;
+}
+
+.markdown-body .guestbook-form input,
+.markdown-body .guestbook-form textarea {
+	border: 2px inset #ddd;
+	padding: 3px;
+	width: 100%;
+	font-family: "MS Sans Serif", Arial, sans-serif;
+	background: #ffffff;
+}

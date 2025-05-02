@@ -41,8 +41,8 @@ This project goes beyond simple Markdown rendering by offering:
 2. Custom Extensions/Features: Implement unique Markdown extensions that aren't widely available in other platforms, like special callouts, diagrams, custom components, etc.
 
 3. Specialized Use-Case Focus: Target a specific niche where Markdown rendering has unique requirements (scientific notation, legal documents, educational content).
-
-4. Style Framework Comparison Tool: Complete the other phases with Tailwind, Bulma, and Bootstrap to create a tool that helps developers compare how Markdown looks across different CSS frameworks.
+ <!--
+4. Style Framework Comparison Tool: Complete the other phases with Tailwind, Bulma, and Bootstrap to create a tool that helps developers compare how Markdown looks across different CSS frameworks. -->
 
 5. Export Capabilities: Add functionality to export the styled Markdown as PDF, image formats, or standalone HTML files.
 

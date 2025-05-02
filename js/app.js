@@ -24,9 +24,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
 	/**
 	 * Change the CSS style of the Markdown renderer
-	 * @param {string} style - The style to apply (basic, modern, or scientific)
+	 * @param {string} style - The style to apply (basic, modern, scientific, legal, retro1997)
 	 */
 	function changeStyle(style) {
+		// Apply special handling for retro1997 theme
+		if (style === 'retro1997') {
+			document.body.classList.add('retro1997-theme');
+
+			// Show browser compatibility notice
+			if (!document.querySelector('.browser-notice')) {
+				const notice = document.createElement('div');
+				notice.className = 'browser-notice';
+				notice.innerHTML = 'Best viewed in Netscape Navigator 3.0 at 800x600 resolution';
+				document.body.prepend(notice);
+			}
+
+			// Update the date in any marquee elements that contain "Last updated"
+			setTimeout(() => {
+				const markdownContent = document.getElementById('markdown-content');
+				const dateElements = markdownContent.querySelectorAll('marquee, .marquee span, [text*="Last updated"]');
+				dateElements.forEach(el => {
+					if (el.textContent.includes('Last updated')) {
+						// Keep the text but update only the date part
+						el.textContent = el.textContent.replace(/Last updated:.*(\d{4})/, 'Last updated: May 2, 2025');
+					}
+				});
+
+				// Re-apply retro elements processing
+				processRetro1997Elements(markdownContent);
+			}, 100);
+		} else {
+			document.body.classList.remove('retro1997-theme');
+			const notice = document.querySelector('.browser-notice');
+			if (notice) notice.remove();
+		}
+
 		themeStylesheet.setAttribute('href', `styles/${style}.css`);
 		// Save the selected style in local storage for persistence
 		localStorage.setItem('preferredStyle', style);
