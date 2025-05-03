@@ -75,16 +75,16 @@ Just click the button to see it work!
 
 Here's my collection of the coolest animated GIFs on the web:
 
-![Under Construction](https://web.archive.org/web/20091021055957if_/http://hk.geocities.com/milkyy_way_hk/construction.gif)
+![Under Construction](https://upload.wikimedia.org/wikipedia/commons/1/19/Under_construction_graphic.gif)
 
 ## Guestbook
 
 Please sign my guestbook before you leave! Just fill out the form below:
 
--   **Name**: ********\_********
--   **Email**: ********\_********
--   **Homepage**: ********\_********
--   **Comments**: ********\_********
+-   **Name**: **\*\*\*\***\_**\*\*\*\***
+-   **Email**: **\*\*\*\***\_**\*\*\*\***
+-   **Homepage**: **\*\*\*\***\_**\*\*\*\***
+-   **Comments**: **\*\*\*\***\_**\*\*\*\***
 
 ---
 

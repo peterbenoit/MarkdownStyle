@@ -224,36 +224,32 @@ header h1 {
 	font-size: inherit;
 }
 
-/* Blockquotes */
+/* Blockquotes - with textured background like in screenshot */
 .markdown-body blockquote {
-	margin: 10px 0;
-	padding: 10px;
-	color: var(--color-text);
 	background-color: var(--color-blockquote-bg);
-	border-left: 4px solid var(--color-blockquote-border);
-	border-right: 1px solid var(--color-blockquote-border);
-	border-top: 1px solid var(--color-blockquote-border);
-	border-bottom: 1px solid var(--color-blockquote-border);
+	border-left: 5px solid var(--color-blockquote-border);
+	padding: 10px;
+	margin: 15px 0;
+	font-style: italic;
 	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEklEQVQImWNgYGD4z0AswK4SAFXuAf8EPy+xAAAAAElFTkSuQmCC");
 }
 
-/* Tables - the classic HTML table look */
+/* Tables - the classic HTML table look with navy headers */
 .markdown-body table {
 	border-collapse: collapse;
 	width: 100%;
 	margin: 20px 0;
-	border: 2px outset #ddd;
+	border: 2px solid #000080;
 }
 
 .markdown-body table th {
-	background-color: var(--color-table-header);
+	background-color: #000080;
 	color: white;
 	font-family: "Arial", "Helvetica", sans-serif;
 	font-weight: bold;
 	padding: 5px;
 	border: 1px solid var(--color-table-border);
 	text-align: center;
-	border: 2px inset #aaa;
 }
 
 .markdown-body table td {
@@ -476,16 +472,6 @@ footer p {
 	color: #666666;
 }
 
-/* "Groovy" background patterns for special sections */
-.markdown-body blockquote {
-	background-color: var(--color-blockquote-bg);
-	border-left: 5px solid var(--color-blockquote-border);
-	padding: 10px;
-	margin: 15px 0;
-	font-style: italic;
-	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAEklEQVQImWNgYGD4z0AswK4SAFXuAf8EPy+xAAAAAElFTkSuQmCC");
-}
-
 /* 3D buttons - classic Windows 95/98 look */
 .markdown-body button,
 .markdown-body .button {
@@ -502,27 +488,6 @@ footer p {
 .markdown-body button:active,
 .markdown-body .button:active {
 	border-style: inset;
-}
-
-/* Classic 90s table styling */
-.markdown-body table {
-	border-collapse: collapse;
-	width: 100%;
-	border: 2px outset #ddd;
-}
-
-.markdown-body th {
-	background-color: var(--color-table-header);
-	color: white;
-	font-weight: bold;
-	border: 2px inset #aaa;
-	padding: 5px;
-}
-
-.markdown-body td {
-	border: 1px solid var(--color-table-border);
-	padding: 5px;
-	background: #fff;
 }
 
 /* Guestbook form styling */

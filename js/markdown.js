@@ -314,36 +314,114 @@ function processMathJax() {
 
 /**
  * Process retro 1997-style elements like marquees, hit counter, etc.
+ * Uses standard Markdown patterns to apply retro styling without requiring HTML in Markdown.
  *
  * @param {HTMLElement} container - The container element with rendered Markdown
  */
 function processRetro1997Elements(container) {
-	// Process marquee tags
-	const marquees = container.querySelectorAll('marquee');
-	marquees.forEach(marquee => {
-		// Add some classic 90s styling
-		marquee.style.backgroundColor = '#FFFF00';
-		marquee.style.color = '#FF0000';
-		marquee.style.fontWeight = 'bold';
-	});
+	// Process paragraphs that start with "UNDER CONSTRUCTION:" for construction banners
+	const paragraphs = container.querySelectorAll('p');
+	paragraphs.forEach(paragraph => {
+		const text = paragraph.textContent.trim();
 
-	// Process special under construction divs
-	const constructionDivs = container.querySelectorAll('.under-construction');
-	constructionDivs.forEach(div => {
-		div.classList.add('blink');
+		// Under Construction banner
+		if (text.startsWith('UNDER CONSTRUCTION:')) {
+			// Create under construction div
+			const constructionDiv = document.createElement('div');
+			constructionDiv.className = 'under-construction blink';
+			constructionDiv.textContent = text.replace('UNDER CONSTRUCTION:', '').trim();
 
-		// Add construction gif if not already present
-		if (!div.querySelector('img')) {
+			// Add construction gif
 			const constructionImg = document.createElement('img');
 			constructionImg.src = 'https://web.archive.org/web/20091021055957if_/http://hk.geocities.com/milkyy_way_hk/construction.gif';
 			constructionImg.alt = 'Under Construction';
-			div.prepend(constructionImg);
+			constructionDiv.prepend(constructionImg);
+
+			// Replace paragraph with construction div
+			paragraph.parentNode.replaceChild(constructionDiv, paragraph);
+		}
+
+		// Marquee text (enclosed in >>> ... <<<)
+		if (text.startsWith('>>>') && text.endsWith('<<<')) {
+			const marqueeDiv = document.createElement('div');
+			marqueeDiv.className = 'marquee';
+
+			const span = document.createElement('span');
+			span.textContent = text.slice(3, -3).trim();
+			marqueeDiv.appendChild(span);
+
+			paragraph.parentNode.replaceChild(marqueeDiv, paragraph);
+		}
+
+		// Hit counter
+		if (text.startsWith('HITCOUNT:')) {
+			const counterDiv = document.createElement('div');
+			counterDiv.className = 'hit-counter';
+
+			// Get current count from localStorage or use default
+			const defaultCount = text.replace('HITCOUNT:', '').trim() || '000000';
+			let count = parseInt(localStorage.getItem('retro1997_hitcount') || defaultCount);
+
+			// Increment count when viewing with retro theme
+			const themeStylesheet = document.getElementById('theme-stylesheet');
+			if (themeStylesheet && themeStylesheet.getAttribute('href').includes('retro1997')) {
+				count += 1;
+				localStorage.setItem('retro1997_hitcount', count.toString());
+			}
+
+			// Format count with leading zeros
+			counterDiv.textContent = count.toString().padStart(6, '0');
+
+			paragraph.parentNode.replaceChild(counterDiv, paragraph);
+		}
+
+		// Best viewed in message
+		if (text.startsWith('BEST VIEWED IN:')) {
+			const bestViewedDiv = document.createElement('div');
+			bestViewedDiv.className = 'best-viewed';
+			bestViewedDiv.textContent = text.replace('BEST VIEWED IN:', '').trim();
+
+			paragraph.parentNode.replaceChild(bestViewedDiv, paragraph);
 		}
 	});
 
-	// Process hit counter
+	// Process headings with NEW! marker
+	const headings = container.querySelectorAll('h1, h2, h3, h4, h5, h6');
+	headings.forEach(heading => {
+		if (heading.textContent.includes('[NEW]')) {
+			// Create new badge
+			const newBadge = document.createElement('span');
+			newBadge.className = 'new-badge blink';
+
+			// Replace [NEW] marker with empty text
+			heading.innerHTML = heading.innerHTML.replace('[NEW]', '');
+
+			// Add the badge
+			heading.appendChild(newBadge);
+		}
+	});
+
+	// Process any existing HTML elements (for backward compatibility)
+
+	// Process existing marquee tags
+	const marquees = container.querySelectorAll('marquee');
+	marquees.forEach(marquee => {
+		// Convert to our div-based marquee
+		const marqueeDiv = document.createElement('div');
+		marqueeDiv.className = 'marquee';
+
+		const span = document.createElement('span');
+		span.textContent = marquee.textContent;
+		marqueeDiv.appendChild(span);
+
+		marquee.parentNode.replaceChild(marqueeDiv, marquee);
+	});
+
+	// Process existing hit counters and other special divs (for backward compatibility)
 	const hitCounters = container.querySelectorAll('.hit-counter');
 	hitCounters.forEach(counter => {
+		if (counter.tagName !== 'DIV') return; // Skip if already processed
+
 		// Get current count from localStorage or use the text content
 		const currentCount = counter.textContent.trim() || '000000';
 		let count = parseInt(localStorage.getItem('retro1997_hitcount') || currentCount);
@@ -357,26 +435,6 @@ function processRetro1997Elements(container) {
 
 		// Format count with leading zeros
 		counter.textContent = count.toString().padStart(6, '0');
-	});
-
-	// Process new badges
-	const newBadges = container.querySelectorAll('.new-badge');
-	newBadges.forEach(badge => {
-		badge.classList.add('blink');
-		badge.textContent = 'NEW!';
-		badge.style.color = '#FF0000';
-		badge.style.fontSize = '10pt';
-		badge.style.backgroundColor = '#FFFF00';
-		badge.style.padding = '0 3px';
-	});
-
-	// Process "best viewed" message
-	const bestViewed = container.querySelectorAll('.best-viewed');
-	bestViewed.forEach(div => {
-		div.style.textAlign = 'center';
-		div.style.fontStyle = 'italic';
-		div.style.fontSize = '10pt';
-		div.style.marginTop = '20px';
 	});
 }
 

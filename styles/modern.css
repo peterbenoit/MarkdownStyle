@@ -364,7 +364,6 @@ nav a.disabled {
 .markdown-body table {
 	border-spacing: 0;
 	border-collapse: separate;
-	display: block;
 	width: 100%;
 	overflow: auto;
 	margin-top: 0;
